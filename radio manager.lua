@@ -47,12 +47,16 @@ if CLIENT then
             return 
         end
         
-        local start, last = string.find(url, "download", 1) -- hack for now until the json is fixed -- keeping it incase i dunno
-        if start and string.find(url, "revolt", 1) then
-            local left = string.left(url, start-1)
-            local right = string.right(url, #url - (#left+9))
-            url = left..right
-        end
+        -- Fix: only apply Revolt cleanup if host is autumn.revolt.chat
+if string.find(url, "autumn%.revolt%.chat") then
+    local start = string.find(url, "download", 1)
+    if start then
+        local left = string.left(url, start-1)
+        local right = string.right(url, #url - (#left+9))
+        url = left .. right
+    end
+end
+
 
         url = string.gsub(url, " ", "%%20") -- stupd hack (incase space in url)
         
